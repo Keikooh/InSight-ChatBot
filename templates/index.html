@@ -1,0 +1,60 @@
+{% extends './base.html' %} {% block body %}
+
+<div class="w-100 mt-3">
+  <div
+    id="chat"
+    class="container p-3 overflow-y-auto d-flex flex-column-reverse"
+    style="height: 70vh"
+  >
+    <div>
+      {% for message in messages %} 
+        {% if message.type == 'bot' %}
+          <div class="row justify-content-start m-3">
+            <small class="mb-1 opacity-50">Bot</small>
+            <div
+              class=" text-black px-3 py-2"
+              style="background-color: white; border-radius: 0 16px 16px 16px; width: fit-content; word-wrap: break-word;"
+            >
+              {{ message.content }}
+            </div>
+          </div>
+        {% elif message.type == 'user' %}
+          <div class="row justify-content-end m-3">
+            <small class="mb-1 text-end opacity-50">You</small>
+            <div 
+              class="bg-primary text-white px-3 py-2"
+              style="border-radius: 16px 16px 0 16px; width: fit-content;  word-wrap: break-word;">
+              {{ message.content }}
+            </div>
+          </div>
+        {% endif %} 
+      {% endfor %}
+    </div>
+  </div>
+
+  <form
+    method="POST"
+    action="{{ url_for('sendMessage') }}"
+    class="w-100 d-flex gap-2 px-2 py-3 border-top"
+    style="background-color: rgb(247, 247, 247)"
+  >
+    <input
+      type="text"
+      class="form-control"
+      id="question"
+      name="question"
+      placeholder="Write your message ..."
+    />
+    <button type="submit" class="btn bg-primary text-white border">
+      <i class="fa fa-paper-plane"></i>
+    </button>
+    <a
+      id="btnClear"
+      class="btn bg-body-tertiary border"
+      href="{{url_for('clear')}}"
+      ><i class="fa fa-trash"></i
+    ></a>
+  </form>
+</div>
+
+{% endblock %}
